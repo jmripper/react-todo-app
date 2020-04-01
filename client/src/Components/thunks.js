@@ -10,7 +10,7 @@ import {
 export const loadTodos = () => async (dispatch, getState) => {
     try {
         dispatch(loadTodosInProgress());
-        const response = await fetch('http://localhost:5000/todos');
+        const response = await fetch('/todos');
         const todos = await response.json();
     
         dispatch(loadTodosSuccess(todos));
@@ -23,7 +23,7 @@ export const loadTodos = () => async (dispatch, getState) => {
 export const addTodoRequest = text => async dispatch => {
     try {
         const body = JSON.stringify({ text });
-        const response = await fetch('http://localhost:5000/todos', {
+        const response = await fetch('/todos', {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -39,7 +39,7 @@ export const addTodoRequest = text => async dispatch => {
 
 export const removeTodoRequest = id => async dispatch => {
     try {
-        const response = await fetch(`http://localhost:5000/todos/${id}`, {
+        const response = await fetch(`/todos/${id}`, {
             method: 'delete'
         });
         const removedTodo = await response.json();
@@ -51,7 +51,7 @@ export const removeTodoRequest = id => async dispatch => {
 
 export const markTodoAsCompletedRequest = id => async dispatch => {
     try {
-        const response = await fetch(`http://localhost:5000/todos/${id}/completed`, {
+        const response = await fetch(`/todos/${id}/completed`, {
             method: 'post'
         });
         const updatedTodo = await response.json();

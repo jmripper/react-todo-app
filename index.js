@@ -4,7 +4,7 @@ const path = require("path");
 const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
 
-var fakeTodos = [
+const fakeTodos = [
   {
     id: "ae06181d-92c2-4fed-a29d-fb53a6301eb9",
     text: "Learn about React Ecosystems",
@@ -28,6 +28,7 @@ var fakeTodos = [
 const app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 //ROUTES
@@ -44,19 +45,19 @@ app.get("/todos-delay", (req, res) => {
 
 // The route for creating new todo-list items
 app.post('/todos', (req, res) => {
-  const { text } = req.body;
-  if (text) {
-      const insertedTodo = {
-          id: uuidv4(),
-          createdAt: Date.now(),
-          isCompleted: false,
-          text,
-      }
-      fakeTodos.push(insertedTodo);
-      res.status(200).json(insertedTodo);
-  } else {
-      res.status(400).json({ message: 'Request body should have a text property' });
-  }
+    const { text } = req.body;
+    if (text) {
+        const insertedTodo = {
+            id: uuidv4(),
+            createdAt: Date.now(),
+            isCompleted: false,
+            text,
+        }
+        fakeTodos.push(insertedTodo);
+        res.status(200).json(insertedTodo);
+    } else {
+        res.status(400).json({ message: 'Request body should have a text property' });
+    }
 });
 app.post("/todos/:id/completed", (req, res) => {
   const { id } = req.params;
@@ -82,11 +83,11 @@ app.delete("/todos/:id", (req, res) => {
 });
 
 // Serve static files from the React frontend app
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "client/build")));
 
 // Anything that doesn't match the above, send back index.html
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
 const PORT = process.env.PORT || 5000;
