@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addTodoRequest } from './thunks';
+import { getTodos } from './selectors';
 import styled from "styled-components";
 
 const FormContainer = styled.div`
@@ -58,11 +59,11 @@ const NewToDoForm = ({ todos, onCreatePressed }) => {
 };
 
 const mapStateToProps = state => ({
-    todos: state.todos,
+  todos: getTodos(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-    onCreatePressed: text => dispatch(addTodoRequest(text)),
+  onCreatePressed: text => dispatch(addTodoRequest(text)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewToDoForm);
