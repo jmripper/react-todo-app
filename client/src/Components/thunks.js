@@ -57,6 +57,7 @@ export const markTodoAsCompletedRequest = id => async dispatch => {
         const updatedTodo = await response.json();
         dispatch(markTodoAsCompleted(updatedTodo));
     } catch (e) {
+        console.log(updatedTodo)
         dispatch(displayAlert(e));
     }
 }
